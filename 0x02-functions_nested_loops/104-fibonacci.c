@@ -1,43 +1,37 @@
 #include <stdio.h>
 /**
- * main - print the first 98 fibonacci numbers.
- * Return: Nothing.
+ * main - print fibonacci
+ * Return: always 0
  */
 int main(void)
 {
-int count;
-unsigned long i, j, k;
-unsigned long m, n, p, carry;
-count = 0;
-i = 0;
-j = 1;
-for (count = 1; count <= 91; count++)
+unsigned long int a, a1, a2, b, b1, b2, c, c1, c2, d, e;
+a = 1;
+b = 2;
+c = a + b;
+printf("%lu, ", a);
+printf("%lu, ", b);
+for (d = 3; d < 89; d++)
 {
-k = i + j;
-i = j;
-j = k;
-printf("%lu, ", k);
+printf("%lu, ", c);
+a = b;
+b = c;
+c = a + b;
 }
-m = i % 1000;
-i = i / 1000;
-n = j % 1000;
-j = j / 1000;
-while (count <= 98)
+b1 = b / 1000000000;
+b2 = b % 1000000000;
+c1 = c / 1000000000;
+c2 = c % 1000000000;
+for (e = 89; e < 98; e++)
 {
-carry = (m + n) / 1000;
-p = (m + n)-carry * 1000;
-k = (i + j)+carry;
-m = n;
-n = p;
-i = j;
-j = k;
-printf("%lu%lu", k, p);
-else
-printf("%lu0%lu", k, p);
-if (count != 98)
-printf(", ");
-count++;
+printf("%lu%lu, ", c1, c2);
+a1 = b1;
+a2 = b2;
+b1 = c1;
+b2 = c2;
+c1 = a1 + b1 + ((a2 + b2) / 1000000000);
+c2 = (a2 + b2) % 1000000000;
 }
-putchar('\n');
+printf("%lu%lu\n", c1, c2);
 return (0);
-
+}
