@@ -1,73 +1,62 @@
 #include "main.h"
-#include <stdlib.h>
 /**
- * wrdcnt - counts the number of words in a string
- * @s: string to count
- * Return: int of number of words
+ * _isspace - check if a character is whitespace
+ * @c: the character to check
+ * Return: 1 is c is a whitespace character, otherwise 0
  */
-int wrdcnt(char *s)
+int _isspace(int c)
 {
-int i, n = 0;
-
-for (i = 0; s[i]; i++)
-{
-if (s[i] == ' ')
-{
-if (s[i + 1] != ' ' && s[i + 1] != '\0')
-n++;
-}
-else if (i == 0)
-n++;
-}
-n++;
-return (n);
+if (c == 0x20 || (c >= 0x09 && c <= 0x0d))
+return (1);
+return (0);
 }
 
 /**
- * strtow - splits a string into words
- * @str: string to split
- * Return: pointer to an array of strings
+ * strtow - split a string into words
+ * @str: a pointer to the string to split
+ * Return: NULL if memory allocation fails or if str is NULL or empty (""),
+ * otherwise return a pointer to the array of words terminated by a NULL
  */
 char **strtow(char *str)
 {
-int i, j, k, l, n = 0, wc = 0;
-char **w;
+char **words, *pos = str;
+int w = 0, c;
 
-if (str == NULL || *str == '\0')
+if (!(str && *str))
 return (NULL);
-n = wrdcnt(str);
-if (n == 1)
-return (NULL);
-w = (char **)malloc(n *sizeof(char *));
-if (w == NULL)
-return (NULL);
-w[n - 1] = NULL;
-i = 0;
-while (str[i])
-{
-if (str[i] != ' ' && (i == 0 || str[i - 1] == ' '))
-{
-for (j = 1; str[i + j] != ' ' && str[i + j]; j++)
+do {
+while (_isspace(*pos))
+++pos;
+if (!*pos)
+break;
+while (*(++pos) && !_isspace(*pos))
 ;
-j++;
-w[wc] = (char *)malloc(j *sizeof(char))
-j--;
-if (w[wc] == NULL)
+} while (++w, *pos);
+if (!w)
+return (NULL);
+words = (char **) malloc(sizeof(char *) * (w + 1));
+if (!words)
+return (NULL);
+w = 0, pos = str;
+do {
+while (_isspace(*pos))
+++pos;
+if (!*pos)
+break;
+for (str = pos++; *pos && !_isspace(*pos); ++pos)
+;
+words[w] = (char *) malloc(sizeof(char) * (pos - str + 1));
+if (!words[w])
 {
-for (k = 0; k < wc; k++)
-free(w[k]);
-free(w[n - 1]);
-free(w);
+while (w >  0)
+free(words[--w]);
+free(words);
 return (NULL);
 }
-for (l = 0; l < j; l++)
-w[wc][l] = str[i + l];
-w[wc][l] = '\0';
-wc++;
-i += j;
-}
-else
-i++;
-}
-return (w);
+for (c = 0; str < pos; ++c, ++str)
+words[w][c] = *str;
+words[w][c] = '\0';
+} while (++w, *pos);
+words[w] = NULL;
+return (words);
 }
