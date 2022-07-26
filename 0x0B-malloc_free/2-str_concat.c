@@ -19,8 +19,7 @@ i = 0;
 }
 else
 {
-for (i = 0; s1[i]; ++i)
-;
+for (i = 0; s1[i]; ++i);
 
 }
 if (s2 == NULL)
@@ -38,7 +37,6 @@ q = i + j + 1;
 s = malloc(q * sizeof(char));
 if (s == NULL)
 return (NULL);
-
 for (r = 0; r < i; ++r)
 s[r] = s1[r];
 for  (r = 0; r < j; ++r)
