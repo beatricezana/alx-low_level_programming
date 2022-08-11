@@ -1,16 +1,15 @@
 global main
+extern printf
 
 	section .text
 main:
-	mov rax, 1
-	mov rdi, 1
+	push rbp
+	mov rdi, format
 	mov rsi, message
-	mov rdx, 17
-	syscall
-
-	mov eax, 60
-	xor rdi, rdi
-	syscall
-
-message:
-	db "Hello, Holberton", 10 ; 10 is the ASCII code for a new line
+	mov rax, 0
+	call printf
+	pop rbp
+	mov rax, 0
+	ret
+message: db "Hello, Holberton", 0
+format:	db "%s", 10, 0
